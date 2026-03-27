@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Georgia', serif; background: #0F0F0F; min-height: 100vh; padding: 48px 24px; color: #F0EBE0; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { margin-bottom: 48px; }
+        h1 { font-size: 48px; color: #F0EBE0; margin-bottom: 8px; }
+        h1 span { color: #E8590C; font-style: italic; }
+        .sub { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #5A5448; }
+        .nav { margin-bottom: 40px; }
+        .nav a { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #C4922A; text-decoration: none; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .card { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 12px; padding: 24px; }
+        .card h3 { font-size: 18px; color: #F0EBE0; margin-bottom: 8px; }
+        .card p { font-size: 13px; color: #8A8070; margin-bottom: 16px; line-height: 1.6; }
+        .card .price { font-size: 22px; color: #E8590C; margin-bottom: 16px; }
+        .card a { display: block; text-align: center; padding: 10px; background: #E8590C; color: #0F0F0F; text-decoration: none; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; border-radius: 8px; font-weight: 600; }
+        .empty { text-align: center; color: #5A5448; padding: 60px 0; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Food<span>Hub</span></h1>
+            <p class="sub">Order fresh, eat well</p>
+        </div>
+        <div class="nav">
+            <a href="{% url 'orders' %}">View Orders →</a>
+        </div>
+        {% if items %}
+        <div class="grid">
+            {% for item in items %}
+            <div class="card">
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.description }}</p>
+                <div class="price">NGN {{ item.price }}</div>
+                <a href="{% url 'place_order' item.pk %}">Order Now</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty">No items on the menu yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

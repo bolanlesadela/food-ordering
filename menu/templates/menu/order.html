@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Order</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Georgia', serif; background: #0F0F0F; min-height: 100vh; padding: 48px 24px; color: #F0EBE0; display: flex; align-items: center; justify-content: center; }
+        .card { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 16px; padding: 40px; width: 100%; max-width: 440px; }
+        h2 { font-size: 28px; color: #F0EBE0; margin-bottom: 8px; }
+        .price { font-size: 20px; color: #E8590C; margin-bottom: 32px; }
+        label { display: block; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #5A5448; margin-bottom: 10px; }
+        input { width: 100%; background: #0F0F0F; border: 2px solid #2A2A2A; border-radius: 8px; padding: 12px 16px; font-size: 14px; color: #F0EBE0; font-family: 'Georgia', serif; outline: none; margin-bottom: 24px; box-sizing: border-box; }
+        input:focus { border-color: #E8590C; }
+        button { width: 100%; padding: 16px; background: #E8590C; border: none; border-radius: 8px; color: #0F0F0F; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; font-family: 'Georgia', serif; font-weight: 600; }
+        .back { display: block; text-align: center; margin-top: 16px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #5A5448; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>{{ item.name }}</h2>
+        <p class="price">NGN {{ item.price }}</p>
+        <form method="POST">
+            {% csrf_token %}
+            <label>Your Name</label>
+            <input type="text" name="customer_name" placeholder="Enter your name" required>
+            <label>Quantity</label>
+            <input type="number" name="quantity" value="1" min="1" required>
+            <button type="submit">Place Order</button>
+        </form>
+        <a href="{% url 'menu' %}" class="back">← Back to menu</a>
+    </div>
+</body>
+</html>

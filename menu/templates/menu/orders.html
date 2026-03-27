@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Georgia', serif; background: #0F0F0F; min-height: 100vh; padding: 48px 24px; color: #F0EBE0; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { font-size: 40px; color: #F0EBE0; margin-bottom: 8px; }
+        .sub { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #5A5448; margin-bottom: 40px; }
+        .nav { margin-bottom: 32px; }
+        .nav a { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #C4922A; text-decoration: none; }
+        .order { background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 12px; padding: 20px 24px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        .order-info h3 { font-size: 16px; color: #F0EBE0; margin-bottom: 4px; }
+        .order-info p { font-size: 12px; color: #8A8070; }
+        .order-right { text-align: right; }
+        .total { font-size: 18px; color: #E8590C; margin-bottom: 8px; }
+        .status { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .pending { background: rgba(196,146,42,0.15); color: #C4922A; }
+        .confirmed { background: rgba(123,198,126,0.15); color: #7BC67E; }
+        .delivered { background: rgba(90,84,72,0.3); color: #5A5448; }
+        .update { display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #E8590C; text-decoration: none; }
+        .empty { text-align: center; color: #5A5448; padding: 60px 0; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Orders</h1>
+        <p class="sub">All incoming orders</p>
+        <div class="nav">
+            <a href="{% url 'menu' %}">← Back to menu</a>
+        </div>
+        {% if orders %}
+            {% for order in orders %}
+            <div class="order">
+                <div class="order-info">
+                    <h3>{{ order.customer_name }}</h3>
+                    <p>{{ order.item.name }} × {{ order.quantity }}</p>
+                    <p>{{ order.created_at|date:"M d, Y H:i" }}</p>
+                </div>
+                <div class="order-right">
+                    <div class="total">NGN {{ order.total }}</div>
+                    <span class="status {{ order.status }}">{{ order.status }}</span>
+                    {% if order.status != 'delivered' %}
+                    <a href="{% url 'update_status' order.pk %}" class="update">Update →</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty">No orders yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
